@@ -1,0 +1,276 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Core Palette — Black + Orange Glass */
+  --bg:          #0b0b0d;
+  --bg-mid:      rgba(12, 12, 14, 0.55);
+  --bg-card:     rgba(22, 22, 24, 0.45);
+  --bg-card2:    rgba(26, 26, 28, 0.40);
+  --border:      rgba(255,255,255,0.10);
+  --border-teal: rgba(235,94,40,0.25);   /* kept var name for compatibility, now orange-tinted border */
+
+  --white:       #ffffff;
+  --off-white:   #f4ece6;
+  --text-1:      #d8d2ce;
+  --text-2:      #9c948e;
+  --text-muted:  #6b635e;
+
+  --teal:        #eb5e28;   /* primary accent — now orange (kept var name for compatibility) */
+  --teal-dim:    #c94a1c;   /* darker orange for hover states */
+  --gold:        #f0b429;
+  --green:       #4ef158;
+  --red:         #e85d3a;
+
+  --orange:      #eb5e28;
+  --orange-dim:  #c94a1c;
+  --orange-soft: rgba(235,94,40,0.14);
+
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body:    'Inter', sans-serif;
+  --font-mono:    'Space Grotesk', monospace;
+
+  scroll-behavior: smooth;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { overflow-x: hidden; }
+
+body {
+  /* Background image — fixed so it stays while scrolling */
+  background-color: #08080a;
+  background-image:
+    linear-gradient(rgba(6, 6, 8, 0.25), rgba(6, 6, 8, 0.25)),
+    url('/bg.png');
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  color: var(--text-1);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection { background: var(--orange); color: #fff; }
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--orange-dim); border-radius: 3px; }
+
+/* ─── Container ─── */
+.container { max-width: 1220px; margin: 0 auto; padding: 0 28px; }
+
+/* ─── Sections ─── */
+section { padding: 96px 0 56px; }
+
+/* ─── Section Label Chip — Transparent Liquid Glass ─── */
+.section-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--orange);
+  position: relative;
+  display: inline-block;
+  padding: 10px 22px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  overflow: hidden;
+
+  /* Fully transparent — only blur gives it shape */
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+
+  /* Light-catching edges */
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-top-color: rgba(255, 255, 255, 0.18);
+  border-bottom-color: rgba(255, 255, 255, 0.03);
+
+  /* Subtle depth */
+  box-shadow:
+    0 1px 8px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  transition: all 0.3s ease;
+}
+
+/* Faint specular shine on top half */
+.section-label::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 50%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    transparent 100%
+  );
+  border-radius: 12px 12px 50% 50%;
+  pointer-events: none;
+}
+
+.section-label:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-top-color: rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 2px 16px rgba(235, 94, 40, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+/* ─── Display Headings ─── */
+.display-title {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  color: var(--white);
+  line-height: 0.9;
+  letter-spacing: 2px;
+}
+.display-title span { color: var(--orange); }
+
+.section-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  color: var(--white);
+  line-height: 0.95;
+  letter-spacing: 1px;
+}
+.section-heading span { color: var(--orange); }
+
+.section-sub {
+  color: var(--text-2);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  max-width: 540px;
+}
+
+/* ─── Clean Card (the "slide") — heavier frosted glass ─── */
+.slide-card {
+  background: rgba(20, 20, 22, 0.42);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+.slide-card:hover {
+  border-color: rgba(235,94,40,0.35);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.45), 0 0 0 1px rgba(235,94,40,0.12);
+}
+
+/* ─── Glass panel utility (frosted, brighter glass) ─── */
+.glass-panel {
+  background: rgba(255,255,255,0.045);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 18px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 8px 30px rgba(0,0,0,0.35);
+}
+
+/* ─── Featured / highlighted card (solid orange glass, like pricing mid-tier) ─── */
+.card-featured {
+  background: linear-gradient(155deg, rgba(235,94,40,0.92), rgba(201,74,28,0.92));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 16px;
+  color: #fff;
+  box-shadow: 0 14px 40px rgba(235,94,40,0.35);
+}
+.card-featured .text-2, .card-featured .section-sub { color: rgba(255,255,255,0.85); }
+
+/* ─── Tag Chip ─── */
+.tag-chip {
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
+  color: var(--text-2);
+  font-family: var(--font-mono);
+}
+
+/* ─── Divider ─── */
+.teal-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(235,94,40,0.30), transparent);
+  margin: 16px 0;
+}
+
+/* ─── Skill Progress Bar ─── */
+.progress-track { height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 2px; background: var(--orange); transition: width 1.2s cubic-bezier(.16,1,.3,1); }
+
+/* ─── Number badge ─── */
+.num-badge {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  color: var(--orange);
+  opacity: 0.85;
+  letter-spacing: 2px;
+  user-select: none;
+}
+
+/* ─── Buttons — pill-shaped, glassy, orange primary ─── */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 26px; border-radius: 999px;
+  font-weight: 600; font-size: 0.88rem;
+  font-family: var(--font-body); text-decoration: none;
+  transition: all 0.22s ease; border: 1px solid transparent;
+  outline: none; cursor: pointer;
+}
+.btn-primary {
+  background: var(--orange);
+  color: #fff;
+  border-color: var(--orange);
+  box-shadow: 0 6px 20px rgba(235,94,40,0.35);
+}
+.btn-primary:hover { background: var(--orange-dim); box-shadow: 0 8px 26px rgba(235,94,40,0.45); }
+.btn-outline {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--off-white);
+  border-color: rgba(255,255,255,0.16);
+}
+.btn-outline:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.28); }
+.btn-gold { background: var(--gold); color: #1a1206; font-weight: 700; border-color: var(--gold); }
+.btn-gold:hover { filter: brightness(1.08); }
+
+/* ─── Form ─── */
+.form-input {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px 16px;
+  color: var(--white); width: 100%;
+  font-family: var(--font-body); font-size: 0.9rem;
+  outline: none; transition: border-color 0.2s;
+}
+.form-input:focus { border-color: var(--orange); }
+.form-input.valid { border-color: var(--green) !important; }
+.form-input.invalid { border-color: var(--red) !important; }
+
+/* ─── Typing cursor ─── */
+@keyframes blink { 0%,100% { opacity:1 } 50% { opacity:0 } }
+.typing-cursor { display:inline-block; width:2px; height:1em; background:var(--orange); margin-left:3px; animation: blink .9s infinite; vertical-align:text-bottom; border-radius:1px; }
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  section { padding: 70px 0 40px; }
+  .display-title { font-size: 3rem; }
+  .section-heading { font-size: 2.2rem; }
+}
