@@ -39,14 +39,19 @@ export default function Hero() {
   };
 
   return (
-    <section id="home" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '110px 0 60px' }}>
+    <section id="home" className="hero-section" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '110px 0 60px' }}>
       <div className="container" style={{ width: '100%' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: '56px', alignItems: 'center' }} className="hero-grid">
+        {/* Mobile only label */}
+        <div className="mobile-only-label" style={{ display: 'none', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '24px' }}>
+          <span className="section-label" style={{ marginBottom: 0 }}>PORTFOLIO 2026 · KERALA, INDIA</span>
+        </div>
+
+        <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: '56px', alignItems: 'center' }}>
 
           {/* LEFT */}
-          <div>
-            {/* Label */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
+          <div className="hero-text-col">
+            {/* Label (Desktop) */}
+            <div className="desktop-only-label" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
               <span className="section-label">PORTFOLIO 2026 · KERALA, INDIA</span>
             </div>
 
@@ -74,15 +79,15 @@ export default function Hero() {
            
 
             {/* CTAs */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '40px' }}>
-              <button onClick={() => scroll('projects')} className="btn btn-primary">
-                View Projects <ChevronRight size={15} />
+            <div className="hero-ctas" style={{ display: 'flex', flexWrap: 'nowrap', gap: '8px', marginBottom: '40px', overflowX: 'auto', paddingBottom: '4px', scrollbarWidth: 'none' }}>
+              <button onClick={() => scroll('projects')} className="btn btn-primary hero-btn">
+                Projects <ChevronRight size={14} />
               </button>
-              <a href="/resume.pdf" download="Adhnan_CT_Resume.pdf" className="btn btn-gold" style={{ textDecoration: 'none' }}>
-                Download CV <Download size={15} />
+              <a href="/resume.pdf" download="Adhnan_CT_Resume.pdf" className="btn btn-gold hero-btn" style={{ textDecoration: 'none' }}>
+                CV <Download size={14} />
               </a>
-              <button onClick={() => scroll('contact')} className="btn btn-outline">
-                Contact <Send size={15} />
+              <button onClick={() => scroll('contact')} className="btn btn-outline hero-btn">
+                Contact <Send size={14} />
               </button>
             </div>
 
@@ -119,7 +124,7 @@ export default function Hero() {
           </div>
 
           {/* RIGHT — photo card */}
-          <div className="slide-card" style={{
+          <div className="slide-card hero-image-col" style={{
             height: '480px',
             position: 'relative',
             overflow: 'hidden',
@@ -136,6 +141,7 @@ export default function Hero() {
             <img
               src="/adhnan.png"
               alt="Adhnan CT"
+              className="hero-img"
               style={{
                 width: '100%',
                 height: '100%',
@@ -149,8 +155,8 @@ export default function Hero() {
             />
 
             {/* Blend overlays — fade edges into card */}
-            <div style={{ position: 'absolute', inset: 0, zIndex: 2, background: 'linear-gradient(to top, rgba(11,11,13,0.98) 0%, rgba(11,11,13,0.4) 40%, transparent 70%)' }} />
-            <div style={{ position: 'absolute', inset: 0, zIndex: 2, background: 'linear-gradient(to right, rgba(11,11,13,0.5) 0%, transparent 25%, transparent 75%, rgba(11,11,13,0.5) 100%)' }} />
+            <div className="blend-bottom" style={{ position: 'absolute', inset: 0, zIndex: 2, background: 'linear-gradient(to top, rgba(11,11,13,0.98) 0%, rgba(11,11,13,0.4) 40%, transparent 70%)' }} />
+            <div className="blend-sides" style={{ position: 'absolute', inset: 0, zIndex: 2, background: 'linear-gradient(to right, rgba(11,11,13,0.5) 0%, transparent 25%, transparent 75%, rgba(11,11,13,0.5) 100%)' }} />
 
             {/* Bottom info */}
             <div style={{
@@ -191,7 +197,42 @@ export default function Hero() {
       </div>
 
       <style>{`
-        @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr !important; } }
+        @media (max-width: 900px) { 
+          .hero-section { padding: 90px 0 40px !important; }
+          .mobile-only-label { display: flex !important; }
+          .desktop-only-label { display: none !important; }
+          .hero-grid { 
+            grid-template-columns: 1fr !important; 
+            display: flex !important;
+            flex-direction: column-reverse;
+            gap: 40px !important;
+          }
+          .hero-image-col {
+            height: 400px !important;
+            width: 100% !important;
+            max-width: 400px;
+            margin: 0 auto;
+            /* Keep the original slide-card glass look */
+          }
+          .hero-img {
+            /* Scale the photo so it sits nicely in the mobile card */
+            transform: scale(1.2) translate(-20px, -15px) !important;
+            object-position: top center !important;
+          }
+          /* Original blend overlays matching the card background */
+          .blend-bottom {
+            background: linear-gradient(to top, rgba(11,11,13,0.98) 0%, rgba(11,11,13,0.4) 40%, transparent 70%) !important;
+          }
+          .blend-sides {
+            background: linear-gradient(to right, rgba(11,11,13,0.5) 0%, transparent 25%, transparent 75%, rgba(11,11,13,0.5) 100%) !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .hero-image-col { height: 360px !important; }
+          .hero-img { transform: scale(1.15) translate(-15px, -5px) !important; }
+          .hero-ctas::-webkit-scrollbar { display: none; }
+          .hero-btn { padding: 10px 14px !important; font-size: 0.8rem !important; gap: 4px !important; }
+        }
       `}</style>
     </section>
   );

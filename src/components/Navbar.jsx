@@ -1,21 +1,20 @@
 import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Home, User, Code, FolderGit2, Youtube, Briefcase, Award, Mail } from 'lucide-react';
 
 const navItems = [
-  { label: 'Home', id: 'home' },
-  { label: 'About', id: 'about' },
-  { label: 'Skills', id: 'skills' },
-  { label: 'Projects', id: 'projects' },
-  { label: 'Videos', id: 'videos' },
-  { label: 'Experience', id: 'experience' },
-  { label: 'Achievements', id: 'achievements' },
+  { label: 'Home', id: 'home', icon: Home },
+  { label: 'About', id: 'about', icon: User },
+  { label: 'Skills', id: 'skills', icon: Code },
+  { label: 'Projects', id: 'projects', icon: FolderGit2 },
+  { label: 'Videos', id: 'videos', icon: Youtube },
+  { label: 'Experience', id: 'experience', icon: Briefcase },
+  { label: 'Achievements', id: 'achievements', icon: Award },
   // { label: 'Gallery', id: 'gallery' },
-  { label: 'Contact', id: 'contact' },
+  { label: 'Contact', id: 'contact', icon: Mail },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
   const [active, setActive] = useState('home');
 
   useEffect(() => {
@@ -48,13 +47,12 @@ export default function Navbar() {
 
   const scrollTo = (e, id) => {
     e.preventDefault();
-    setIsOpen(false);
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
-    <nav style={{
+    <nav className="navbar-container" style={{
       position: 'fixed',
       top: '16px',
       left: '50%',
@@ -84,7 +82,7 @@ export default function Navbar() {
       }}>
 
         {/* Logo */}
-        <a href="#home" onClick={e => scrollTo(e, 'home')} style={{
+        <a href="#home" className="logo-link" onClick={e => scrollTo(e, 'home')} style={{
           textDecoration: 'none',
           display: 'flex',
           alignItems: 'center',
@@ -143,72 +141,56 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Hamburger */}
-        <button
-          onClick={() => setIsOpen(v => !v)}
-          className="hamburger"
-          style={{
-            display: 'none',
-            background: 'rgba(255,255,255,0.06)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: '8px',
-            color: '#fff',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '6px',
-            cursor: 'pointer',
-          }}
-        >
-          {isOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
+        {/* Mobile links (Icons only) */}
+        <div className="mobile-nav" style={{ display: 'none', alignItems: 'center', gap: '14px', overflowX: 'auto', padding: '4px 8px' }}>
+          {navItems.map((item, index) => {
+            const Icon = item.icon;
+            const isLast = index === navItems.length - 1;
+            return (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                onClick={e => scrollTo(e, item.id)}
+                style={{
+                  color: active === item.id ? '#fff' : 'rgba(216,210,206,0.6)',
+                  padding: '8px',
+                  background: active === item.id ? 'var(--orange)' : 'transparent',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.2s ease',
+                  flexShrink: 0,
+                  boxShadow: active === item.id ? '0 4px 12px rgba(235,94,40,0.3)' : 'none',
+                  marginRight: isLast ? '16px' : '0', // Extra margin so it's not squashed against the right edge
+                }}
+              >
+                <Icon size={20} />
+              </a>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Mobile drawer — also glass */}
-      {isOpen && (
-        <div style={{
-          position: 'absolute',
-          top: 'calc(100% + 8px)',
-          left: 0,
-          right: 0,
-          background: 'rgba(14, 14, 16, 0.92)',
-          backdropFilter: 'blur(28px) saturate(160%)',
-          WebkitBackdropFilter: 'blur(28px) saturate(160%)',
-          border: '1px solid rgba(255,255,255,0.1)',
-          borderRadius: '18px',
-          padding: '12px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '4px',
-          boxShadow: '0 16px 40px rgba(0,0,0,0.35)',
-        }}>
-          {navItems.map(item => (
-            <a
-              key={item.id}
-              href={`#${item.id}`}
-              onClick={e => scrollTo(e, item.id)}
-              style={{
-                padding: '11px 16px',
-                textDecoration: 'none',
-                fontSize: '0.92rem',
-                fontWeight: 500,
-                fontFamily: 'var(--font-body)',
-                color: active === item.id ? '#fff' : 'rgba(216,210,206,0.75)',
-                background: active === item.id ? 'rgba(255,255,255,0.08)' : 'transparent',
-                borderLeft: active === item.id ? '2px solid var(--orange)' : '2px solid transparent',
-                borderRadius: '8px',
-                transition: 'all 0.2s',
-              }}
-            >
-              {item.label}
-            </a>
-          ))}
-        </div>
-      )}
-
       <style>{`
+        /* Hide scrollbar for horizontal mobile nav */
+        .mobile-nav::-webkit-scrollbar { display: none; }
+        .mobile-nav { -ms-overflow-style: none; scrollbar-width: none; }
+
         @media (max-width: 900px) {
           .desk-nav { display: none !important; }
-          .hamburger { display: flex !important; }
+          .logo-link { display: none !important; } /* Hide logo to make room for icons */
+          .mobile-nav { display: flex !important; width: 100%; justify-content: flex-start; }
+          
+          /* Move the main navbar to bottom like a floating footer */
+          .navbar-container {
+            top: auto !important;
+            bottom: 24px !important;
+          }
+          /* Adjust pill padding for icons */
+          .navbar-container > div {
+            padding: 8px 12px !important;
+          }
         }
       `}</style>
     </nav>
